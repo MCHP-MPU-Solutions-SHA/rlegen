@@ -25,7 +25,7 @@ LDFLAGS = -ldl
 all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
-	$(LD) $(CFLAGS) ${LDFLAGS} $(OBJECTS) -o $@
+	$(LD) -o $@ $(OBJECTS) $(CFLAGS) ${LDFLAGS}
 	$(STRIP) $@
 
 clean:
