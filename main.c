@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <getopt.h>
 
-#include "rlegen.h"
+#include "rle.h"
 
 static void usage()
 {

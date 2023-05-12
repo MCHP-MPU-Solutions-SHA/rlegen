@@ -3,7 +3,7 @@
 #include <fcntl.h>
 #include <byteswap.h>
 
-#include "rlegen.h"
+#include "rle.h"
 
 //#define RLE_DEBUG
 #ifdef RLE_DEBUG
