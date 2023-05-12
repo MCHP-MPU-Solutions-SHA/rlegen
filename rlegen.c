@@ -34,15 +34,13 @@
 #define F_EXT  0x80 // Length extension flag
 #define F_REPE 0x40 // Data duplication flag
 #define F_WORD 0x20 // Word data flag, default is byte
-//efine F_ALPH 0x10 // Alpha data duplication flag
 
-#define FLAG_MASK 0xE0
 #define FLAG_NON_MASK  0xC0
 #define FLAG_REPE_MASK 0xF0
-#define LEN_MASK 0x1F // bit 7 6 5 used to store F_EXT F_REPE F_WORD flags
 #define LEN_NON_MASK  0x3F
 #define LEN_REPE_MASK 0xF
 #define EXT_MASK 0x7F // bit 7 used to store F_EXT flag
+
 #define MAX_LEN_NON  0x7FFFFFF
 #define MAX_LEN_REPE 0x3FFFFFF
 
@@ -50,13 +48,7 @@
 #define F_ALPH 0x10 // Alpha data duplication flag
 #define ALPHA_MASK 0x000000FF // RGBA8888 format
 
-#undef FLAG_MASK
-#undef LEN_MASK
-#undef EXT_MASK
 #undef MAX_LEN_REPE
-#define FLAG_MASK 0xF0
-#define LEN_MASK 0x0F // bit 7 6 5 used to store F_EXT F_REPE F_WORD flags
-#define EXT_MASK 0x7F // bit 7 used to store F_EXT flag
 #define MAX_LEN_REPE 0x1FFFFFF
 #endif
 
@@ -362,6 +354,8 @@ int rle_decompress(char *buffer, int length, char *out_buf, FILE *out_fp)
 				for (i = 0; i < len; i++) {
 					if (out_fp)
 						fwrite((void *)&data, sizeof(int), 1, out_fp);
+					if (out_buf)
+						((unsigned int *)out_buf)[(total >> 2) + i] = data;
 				}
 
 				off += ret + 4;
@@ -374,6 +368,8 @@ int rle_decompress(char *buffer, int length, char *out_buf, FILE *out_fp)
 
 					if (out_fp)
 						fwrite((void *)&data, sizeof(int), 1, out_fp);
+					if (out_buf)
+						((unsigned int *)out_buf)[(total >> 2) + i] = data;
 				}
 
 				off += ret + 1 + len * 3;
@@ -382,6 +378,8 @@ int rle_decompress(char *buffer, int length, char *out_buf, FILE *out_fp)
 				for (i = 0; i < len; i++) {
 					if (out_fp)
 						fwrite((void *)&buffer[off + ret], sizeof(char), 1, out_fp);
+					if (out_buf)
+						out_buf[total + i] = buffer[off + ret];
 				}
 
 				off += ret + 1;
@@ -391,6 +389,8 @@ int rle_decompress(char *buffer, int length, char *out_buf, FILE *out_fp)
 			for (i = 0; i < len; i++) {
 				if (out_fp)
 					fwrite((void *)&buffer[off + ret + i], sizeof(char), 1, out_fp);
+				if (out_buf)
+					out_buf[total + i] = buffer[off + ret + i];
 			}
 
 			off += ret + len;
