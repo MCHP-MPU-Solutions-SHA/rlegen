@@ -216,7 +216,7 @@ static int repet_count(char *buf, int len, unsigned char *pflag)
 	}
 
 	*pflag = 0;
-	return i;
+	return i > len ? len : i;
 }
 
 unsigned int rle_header(char *buffer, int length)
