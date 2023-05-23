@@ -282,7 +282,6 @@ int rle_compress(char *buffer, int length, char *out_buf, FILE *out_fp)
 			} else if (flag & F_ALPH) {
 				fwrite((void *)&token, ret, 1, out_fp);
 
-				data = *(unsigned int*)&buffer[off];
 #ifdef USE_BIG_ENDIAN
 				fwrite((void *)&buffer[off + 3], sizeof(char), 1, out_fp);
 #else
